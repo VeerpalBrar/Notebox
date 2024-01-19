@@ -23,7 +23,7 @@ class TestDirectoryLookup(unittest.TestCase):
 
         self.assertEqual(str(returned), str(directory))
     
-    def returns_none_if_directory_does_not_exist(self):
+    def returns_empty_directory_if_directory_does_not_exist(self):
         directory = Directory("/test/path", [File("/test/path/a", self.yesterday)])
 
         lookup = DirectoryLookup(self.mongo)
@@ -31,7 +31,7 @@ class TestDirectoryLookup(unittest.TestCase):
 
         returned = lookup.getStoredDirectoryContents("/test/path/b")
 
-        self.assertEqual(returned, None)
+        self.assertEqual(returned, Directory("/test/path/b", []))
 
 if __name__ == '__main__':
     unittest.main()

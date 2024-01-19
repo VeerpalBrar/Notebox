@@ -17,7 +17,7 @@ class DirectoryLookup:
             files = list(map(lambda file: File(file[0], file[1]), directory['files']))
             return Directory(directory['path'], files)
             
-        return None
+        return Directory(path, [])
     
     def save(self, directory):
         filesUpdate = list(map(lambda file: [file.path, file.lastModifiedAt], directory.files))
