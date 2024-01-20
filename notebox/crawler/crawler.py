@@ -1,11 +1,11 @@
 import os 
+from ..shared.logger import logging
 from ..shared.settings import config 
 from datetime import datetime, timedelta
 from ..shared.file import File
 from ..sync.sync import Sync
-import sys
 
-
+logger = logging.getLogger('notebox.crawler')
 yesterday = datetime.now() - timedelta(days=1)
 yesterday = yesterday.timestamp()
 
@@ -40,19 +40,25 @@ def createFiles(files, root):
     return createdFiles
 
 def crawl(initial=False):
+    logger.info("Starting crawl. Initial={}".format(initial))
     for root, dirs, files in os.walk(START_PATH):
-        print(root, file=sys.stdout)
-        dirs[:] = filter(isNotHiddenDirectory, dirs)
-        files = filter(isNotHiddenFile, files)
-        files = list(filter(isTextFile, files))
-        foundFiles = createFiles(files, root)
-        # foundDirs = findModifiedFiles(yesterday, files, root)
-        # print(len(foundDirs))
-        # for file in foundFiles:
-        #     print("f: ", file.path)
-        # for dir in foundDirs:
-        #     print("d: ", dir)
+        try:
+            logger.info("crawling path: {}".format(root))
+            dirs[:] = filter(isNotHiddenDirectory, dirs)
+            files = filter(isNotHiddenFile, files)
+            files = list(filter(isTextFile, files))
+            foundFiles = createFiles(files, root)
+            # foundDirs = findModifiedFiles(yesterday, files, root)
+            # print(len(foundDirs))
+            # for file in foundFiles:
+            #     print("f: ", file.path)
+            # for dir in foundDirs:
+            #     print("d: ", dir)
 
-        syncer.syncDirectory(root, foundFiles, initial)
+            syncer.syncDirectory(root, foundFiles, initial)
+        except Exception as e:
+            logger.error("Error while crawling {}".format(e))
+            raise e
+    logger.info("Finished crawl")
 
 crawl(initial=False)

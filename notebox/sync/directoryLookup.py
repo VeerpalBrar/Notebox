@@ -1,7 +1,10 @@
 from pymongo import MongoClient
+from ..shared.logger import logging
 from ..shared.directory import Directory
 from ..shared.file import File
 from datetime import datetime, timedelta
+
+logger = logging.getLogger("notebox.sync.directoryLookup")
 class DirectoryLookup:
     def __init__(self, client = MongoClient()):
         self.client = client
@@ -20,6 +23,7 @@ class DirectoryLookup:
         return Directory(path, [])
     
     def save(self, directory):
+        logger.info('Saving directory to database.')
         filesUpdate = list(map(lambda file: [file.path, file.lastModifiedAt], directory.files))
         self.directories.update_one(
             {
@@ -32,6 +36,7 @@ class DirectoryLookup:
             },
             upsert=True
         )
+        logger.info('Finished saving directory to database.')
 
 ##### MANUAL TEST #########
 # yesterday = datetime.now() - timedelta(days=1)

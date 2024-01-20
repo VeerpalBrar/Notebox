@@ -1,7 +1,9 @@
+from ..shared.logger import logging
 from ..elastic.elasticSearchUpdater import ElasticSearchUpdater
 from .directoryLookup import DirectoryLookup
 from ..shared.directory import Directory
 
+logger = logging.getLogger('notebox.sync')
 class Sync:
     def __init__(self):
         self.directoryLookup = DirectoryLookup() 
@@ -17,6 +19,11 @@ class Sync:
         oldFilesInDirectory = self.directoryLookup.getStoredDirectoryContents(root)
         newFilesInDirectory = Directory(root, allFiles)
         changes = oldFilesInDirectory.getChanges(newFilesInDirectory)
+        logger.info("Syncing changes. Found {} new file, {} deleted files, {} modified files".format(
+            len(changes["newFiles"]),
+            len(changes["deletedFiles"]),
+            len(changes["modifiedFiles"])
+        ))
         self.elasticSearchUpdater.updateFromChanges(changes)
         self.directoryLookup.save(newFilesInDirectory)
  

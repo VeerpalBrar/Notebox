@@ -1,11 +1,14 @@
+from cmath import log
+from ..shared.logger import logging
 from notebox.elastic.elasticClient import ElasticClient
 
-
+logger = logging.getLogger('notebox.elastic.elasticSearchUpdater')
 class ElasticSearchUpdater:
     def __init__(self):
         self.client =  ElasticClient()
     
     def updateFromChanges(self, changes):
+        logger.info("Updating elastic search.")
         for file in changes["newFiles"]:
             self.client.createDocument(self.getId(file), self.getFileContent(file))
         
@@ -14,6 +17,7 @@ class ElasticSearchUpdater:
         
         for file in changes["deletedFiles"]:
             self.client.deleteDocument(self.getId(file))
+        logger.info("Finished updating elastic search.")
     
     def getId(self, file):
         return file.path
