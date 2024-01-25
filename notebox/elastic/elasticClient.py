@@ -19,8 +19,11 @@ class ElasticClient:
                 "content": content
             }
         })
+
+        print(response)
+
+        return list(map(self.convert_to_hash, response['hits']['hits']))
     
-        return response
     
     def updateDocument(self, id, content):
         response = self.client.update(index=self.index, id=id, doc={
@@ -39,10 +42,16 @@ class ElasticClient:
     def getDocument(self, id):
         response = self.client.get(index=self.index, id=id)
 
-        return response 
+        return self.convert_to_hash(response)
     
     def deleteDocument(self, id):
         response = self.client.delete(index=self.index, id=id)
         return response
+
+    def convert_to_hash(self, f):
+            return {
+                "path": f["_id"],
+                "content": f["_source"]["content"]
+            }
 
 # print(ElasticClient().search("substack"))
