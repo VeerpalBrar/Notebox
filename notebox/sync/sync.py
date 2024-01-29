@@ -24,6 +24,10 @@ class Sync:
             len(changes["deletedFiles"]),
             len(changes["modifiedFiles"])
         ))
+        logger.debug("modified files: {}".format(str(changes["modifiedFiles"])))
+        logger.debug("deleted files: {}".format(str(changes["deletedFiles"])))
+        logger.debug("new files: {}".format(str(changes["newFiles"])))
+
         self.elasticSearchUpdater.updateFromChanges(changes)
         self.directoryLookup.save(newFilesInDirectory)
  
