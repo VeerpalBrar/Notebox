@@ -5,14 +5,14 @@
 	<key>Label</key>
 	<string>local.notebox.crawler.start</string>
 	<key>Program</key>
-	<string>/Users/veerpalbrar/notebox/notebox/crawler/crawl.sh</string>
+	<string>/Users/veerpalbrar/notebox/notebox/scripts/crawl.sh</string>
     <key>StartInterval</key>
     <integer>3600</integer>
 	<key>StandardOutPath</key>
-	<string>/Users/veerpalbrar/notebox/notebox/crawler/logs/log.stdout</string>
+	<string>/Users/veerpalbrar/notebox/notebox/scripts/logs/log.stdout</string>
 	<key>StandardInPath</key>
-    <string>/Users/veerpalbrar/notebox/notebox/crawler/logs/log.stdin</string>
+    <string>/Users/veerpalbrar/notebox/notebox/scripts/logs/log.stdin</string>
     <key>StandardErrorPath</key>
-    <string>/Users/veerpalbrar/notebox/notebox/crawler/logs/log.stderr</string>
+    <string>/Users/veerpalbrar/notebox/notebox/scripts/logs/log.stderr</string>
 </dict>
 </plist>
