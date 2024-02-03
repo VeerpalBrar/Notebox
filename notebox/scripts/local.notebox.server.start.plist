@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>local.notebox.server.start</string>
+	<key>KeepAlive</key>
+    <true/>
+	<key>WorkingDirectory</key>
+	<string>/Users/veerpalbrar/notebox</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>python3</string>
+		<string>-m</string>
+		<string>flask</string>
+		<string>--app</string>
+		<string>notebox/server</string>
+		<string>run</string>
+		<string>--port</string>
+		<string>8070</string>
+	</array>
+	<key>StandardOutPath</key>
+	<string>notebox/scripts/logs/server_log.stdout</string>
+	<key>StandardInPath</key>
+    <string>notebox/scripts/logs/server_log.stdin</string>
+    <key>StandardErrorPath</key>
+    <string>notebox/scripts/logs/server_log.stderr</string>
+</dict>
+</plist>
