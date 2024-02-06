@@ -20,8 +20,6 @@ class ElasticClient:
             }
         })
 
-        print(response)
-
         return list(map(self.convert_to_hash, response['hits']['hits']))
     
     
