@@ -29,7 +29,7 @@ class TestElasticClient(unittest.TestCase):
         es_client = ElasticClient(self.elastic_search, INDEX)
         
         # Index a document
-        doc_id = "test_document"
+        doc_id = "a/test_document.txt"
         content = "title\nline"
         create_response = es_client.createDocument(id=doc_id, content=content)
 
@@ -47,14 +47,14 @@ class TestElasticClient(unittest.TestCase):
         es_client = ElasticClient(self.elastic_search, INDEX)
         
         # Index a document
-        doc_id = "test_document"
+        doc_id = "a/test_document.txt"
         content = "title\nline"
         create_response = es_client.createDocument(id=doc_id, content=content)
         # Assert that the document was created successfully
         assert create_response["result"] == "created"
 
         # Index ampter document
-        doc_id_2 = "test_document_2"
+        doc_id_2 = "b/test_document_2.md"
         content_2 = "title\nline\n search \nend"
         create_response = es_client.createDocument(id=doc_id_2, content=content_2)
 
@@ -72,13 +72,40 @@ class TestElasticClient(unittest.TestCase):
         assert get_response[0]["path"] == doc_id_2
         assert get_response[0]["content"] == content_2
 
+    def test_search_documents_by_title(self):
+        es_client = ElasticClient(self.elastic_search, INDEX)
+        
+        # Index a document
+        doc_id = "a/test_document.txt"
+        content = "title\nline"
+        create_response = es_client.createDocument(id=doc_id, content=content)
+
+
+        # Index ampter document
+        doc_id_2 = "b/test_document_2.md"
+        content_2 = "title\nline\n search \nend"
+        create_response = es_client.createDocument(id=doc_id_2, content=content_2)
+
+
+        # Get the created document
+        get_response = es_client.getDocument(id=doc_id_2)
+        # allow indexing to happen
+        time.sleep(2)
+        get_response = es_client.search("test_document_2")
+
+        print(get_response)
+
+        # Assert that the retrieved document matches the created document
+        assert len(get_response) == 1
+        assert get_response[0]["path"] == doc_id_2
+        assert get_response[0]["content"] == content_2
 
     def test_update_document(self):
         # Create an instance of ElasticClient
         es_client = ElasticClient(self.elastic_search, INDEX)
         
         # Index a document
-        doc_id = "test_document"
+        doc_id = "a/test_document.txt"
         content = "title\nline"
         es_client.createDocument(id=doc_id, content=content)
 
@@ -100,7 +127,7 @@ class TestElasticClient(unittest.TestCase):
         es_client = ElasticClient(self.elastic_search, INDEX)
         
         # Index a document
-        doc_id = "test_document"
+        doc_id = "a/test_document.txt"
         content = "title\nline"
         es_client.createDocument(id=doc_id, content=content)
 

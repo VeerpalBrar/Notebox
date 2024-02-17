@@ -1,5 +1,6 @@
 import elasticsearch
 from ..shared.settings import config
+import os
 
 class ElasticClient:
     def __init__(self, client=None, index = config["INDEX"]):
@@ -15,8 +16,20 @@ class ElasticClient:
     
     def search(self, content):
         response = self.client.search(index=self.index, query={
-            "match": {
-                "content": content
+            "bool": {
+                "minimum_should_match": 1, 
+                "should": [
+                    {
+                        "match": {
+                            "content": content
+                        }
+                    },
+                    {
+                        "match": {
+                            "title": content
+                        }
+                    }
+                ]
             }
         })
 
@@ -24,15 +37,19 @@ class ElasticClient:
     
     
     def updateDocument(self, id, content):
+        title = os.path.basename(id)
         response = self.client.update(index=self.index, id=id, doc={
-            "content": content
+            "content": content,
+            "title": title
         })
 
         return response
     
     def createDocument(self, id, content):
+        title = os.path.basename(id)
         response = self.client.index(index=self.index, id=id, document={
-            "content": content
+            "content": content,
+            "title": title
         })
 
         return response 
