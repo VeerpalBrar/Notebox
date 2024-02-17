@@ -1,4 +1,4 @@
-import os 
+import os
 from ..shared.logger import logging
 from ..shared.settings import config 
 from datetime import datetime, timedelta
@@ -39,8 +39,14 @@ def createFiles(files, root):
         createdFiles.append(File(path, os.path.getmtime(path)))
     return createdFiles
 
+
+def walk_error_handler(exception_instance):
+    print(exception_instance)
+    logger.info("{}".format(exception_instance))
+
 def crawl(initial=False):
-    logger.info("Starting crawl. Initial={}".format(initial))
+    logger.info("Starting crawl. Start path={}. Initial={}".format(START_PATH, initial))
+
     for root, dirs, files in os.walk(START_PATH):
         try:
             logger.info("crawling path: {}".format(root))
@@ -57,6 +63,7 @@ def crawl(initial=False):
 
             syncer.syncDirectory(root, foundFiles, initial)
         except Exception as e:
+            print(e)
             logger.error("Error while crawling {}".format(e))
             raise e
     logger.info("Finished crawl")
