@@ -21,7 +21,7 @@ def get_post():
                 "content": "{} {} {}".format(f[0].strip(), txt, f[1]).strip()
             })
     
-    return ret
+    return {"result": ret}, 200
     
 
 
