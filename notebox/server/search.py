@@ -10,7 +10,7 @@ def get_post():
     """Search for files with certain content"""
     txt = request.args.get('txt')
     results = elastic.search(txt)
-    regex = r"(.{0,50})" + re.escape(txt) + r"(.{0,50})"
+    regex = r"(.{0,100})" + re.escape(txt) + r"(.{0,100})"
 
     ret = []
     for result in results:
