@@ -16,20 +16,10 @@ class ElasticClient:
     
     def search(self, content):
         response = self.client.search(index=self.index, query={
-            "bool": {
-                "minimum_should_match": 1, 
-                "should": [
-                    {
-                        "match": {
-                            "content": content
-                        }
-                    },
-                    {
-                        "match": {
-                            "title": content
-                        }
-                    }
-                ]
+        "multi_match" : {
+            "query":    content,
+            "type":       "phrase_prefix",
+            "fields": [ "title", "content" ] 
             }
         })
 
