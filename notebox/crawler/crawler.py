@@ -24,11 +24,6 @@ def isNotHiddenFile(path):
     name = os.path.basename(path)
     return name[0] != "."
 
-def isTextFile(path):
-    name = os.path.splitext(path)
-    return name[1] in [".md", ".txt"]
-
-
 def isNotHiddenDirectory(path):
     return "." not in path
 
@@ -52,7 +47,6 @@ def crawl(initial=False):
             logger.info("crawling path: {}".format(root))
             dirs[:] = filter(isNotHiddenDirectory, dirs)
             files = filter(isNotHiddenFile, files)
-            files = list(filter(isTextFile, files))
             foundFiles = createFiles(files, root)
             # foundDirs = findModifiedFiles(yesterday, files, root)
             # print(len(foundDirs))
