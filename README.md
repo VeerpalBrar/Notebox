@@ -1,6 +1,5 @@
 # Notebox
-Notebox is a tool that indexes files on your computer into ElasticSearch, enabling you to search across all files
-via an API. 
+Notebox is a tool that indexes files on your computer into ElasticSearch, enabling you to search across all files via an API. 
 
 Optionally, it can be used alongside my [notebox-search obsidian plugin](https://github.com/VeerpalBrar/notebox-search) to search your obsidian vault. 
 
